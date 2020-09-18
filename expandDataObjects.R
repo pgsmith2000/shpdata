@@ -69,8 +69,13 @@ expandedData$AIN <- str_match(expandedData$v155, "AIN_*(.)")[,2]
 
 str(expandedData)
 
+
+
+
+# convert data
+expandedData$Date <- as.Date(expandedData$Date, "%B %d, %Y")
+
 # Specify columns to be factors
-i <- c(3:7)
 i <- c("APP", "INT", "PT", "SCC", "IP", "RC", "RCC", "MP", "DVC", "WU", "PO",
                    "INV", "DNO", "BT", "PVC", "PUT", "NP", "SPROF",
                    "DO", "DOC", "COP", "CHC", "COD", "LHR", "LHI", "FISR", "FISI",
@@ -78,9 +83,20 @@ i <- c("APP", "INT", "PT", "SCC", "IP", "RC", "RCC", "MP", "DVC", "WU", "PO",
 
 # use the lapply function to change columns to factor
 expandedData[i] <- lapply(expandedData[i], as.factor)
+
+# Specify columns to be numeric
+i <- c("DV", "WV", "PV", "NP", "COQ", "TC", "TCV")                                  
+
+# use the lapply function to change columns to factor
+expandedData[i] <- lapply(expandedData[i], as.numeric)
+
 str(expandedData)
 
-write.csv(expandedData, "data/expandedData.csv", row.names=FALSE)
 
 summary(expandedData)
 length(unique(expandedData$TRK))
+length(unique(expandedData$v143))
+length(unique(expandedData$v155))
+
+
+write.csv(expandedData, "data/expandedData.csv", row.names=FALSE)
